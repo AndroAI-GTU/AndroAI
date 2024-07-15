@@ -1,0 +1,198 @@
+File name : file1.txt
+File path : /dir1/dir2
+File content:
+
+In the midst of a bustling city, nestled between towering skyscrapers and narrow alleyways, lies a hidden gem known to only a few locals. This quaint bookstore, with its creaky wooden floors and the scent of aged paper lingering in the air, offers a serene escape from the chaos outside. Shelves brimming with forgotten classics and contemporary masterpieces invite visitors to lose themselves in worlds of imagination. The owner, an elderly gentleman with a wealth of stories himself, delights in recommending the perfect book to every patron. It's a place where time seems to slow down, allowing one to savor the simple pleasure of reading.
+
+
+
+/&&&&&&&&&&/
+
+
+File name : file2.c
+File path : /dir1
+File content: 
+
+
+#include <stdio.h>
+
+// Function to calculate factorial using recursion
+int factorial(int n) {
+    if (n == 0) {
+        return 1; // Base case: factorial of 0 is 1
+    } else {
+        return n * factorial(n - 1); // Recursive call
+    }
+}
+
+int main() {
+    int num;
+    printf("Enter a number: ");
+    scanf("%d", &num);
+
+    if (num < 0) {
+        printf("Factorial of negative numbers is not defined.\n");
+    } else {
+        printf("Factorial of %d is %d\n", num, factorial(num));
+    }
+
+    return 0;
+}
+
+
+/&&&&&&&&&&/
+
+
+File name : file3.py
+File path : /dir1/dir3
+File content: 
+
+
+
+def sieve_of_eratosthenes(limit):
+    primes = []
+    is_prime = [True] * (limit + 1)
+    p = 2
+
+    while p * p <= limit:
+        if is_prime[p]:
+            for i in range(p * p, limit + 1, p):
+                is_prime[i] = False
+        p += 1
+
+    for p in range(2, limit + 1):
+        if is_prime[p]:
+            primes.append(p)
+
+    return primes
+
+# Example usage
+limit = 50
+print(f"Prime numbers up to {limit}: {sieve_of_eratosthenes(limit)}")
+
+
+
+
+
+
+/&&&&&&&&&&/
+
+
+File name : file4.sh
+File path : /
+File content: 
+
+#!/bin/bash
+
+# Function to display usage
+usage() {
+    echo "Usage: $0 <source_directory> <backup_directory>"
+    exit 1
+}
+
+# Check if correct number of arguments is provided
+if [ $# -ne 2 ]; then
+    usage
+fi
+
+SOURCE_DIR=$1
+BACKUP_DIR=$2
+DATE=$(date +%Y%m%d_%H%M%S)
+BACKUP_FILE="backup_$DATE.tar.gz"
+
+# Create backup directory if it doesn't exist
+if [ ! -d "$BACKUP_DIR" ]; then
+    mkdir -p "$BACKUP_DIR"
+fi
+
+# Perform the backup
+tar -czf "$BACKUP_DIR/$BACKUP_FILE" -C "$SOURCE_DIR" .
+
+# Check if the backup was successful
+if [ $? -eq 0 ]; then
+    echo "Backup of $SOURCE_DIR completed successfully. File: $BACKUP_DIR/$BACKUP_FILE"
+else
+    echo "Backup failed!"
+fi
+
+
+
+
+
+
+/&&&&&&&&&&/
+
+
+File name : file5.html
+File path : /
+File content: 
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Favorite Books</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>My Favorite Books</h1>
+    <ul>
+        <li>
+            <h2>The Catcher in the Rye</h2>
+            <p>by J.D. Salinger</p>
+        </li>
+        <li>
+            <h2>To Kill a Mockingbird</h2>
+            <p>by Harper Lee</p>
+        </li>
+        <li>
+            <h2>1984</h2>
+            <p>by George Orwell</p>
+        </li>
+        <li>
+            <h2>Pride and Prejudice</h2>
+            <p>by Jane Austen</p>
+        </li>
+        <li>
+            <h2>The Great Gatsby</h2>
+            <p>by F. Scott Fitzgerald</p>
+        </li>
+    </ul>
+</body>
+</html>
+
+
+
+
+
+
+/&&&&&&&&&&/
+
+
+
+
