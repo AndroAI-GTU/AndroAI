@@ -47,3 +47,6 @@ input_file_path = "llm_output.txt"
 # Dosyaları oluştur
 parse_and_create_files(input_file_path)
 
+# TO DO:
+# androdi dosya paketlerinde ihtiyaç duyulan default dosyaların hepsini bul
+# bu dodsyaları da uygun şekilde doldur
