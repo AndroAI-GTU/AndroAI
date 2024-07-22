@@ -1,0 +1,11 @@
+services:
+  nest:
+    container_name: nest
+    build: ./nest-app
+    restart: always
+    environment:
+      - BACK_PORT=${BACK_PORT}
+    ports:
+      - ${BACK_PORT}:${BACK_PORT}
+    volumes:
+      - ./nest-app:/app
