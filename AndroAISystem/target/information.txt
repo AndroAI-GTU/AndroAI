@@ -1,0 +1,7 @@
+********
+
+
+This is where the apk files generated as a result of the build are placed.
+
+
+********

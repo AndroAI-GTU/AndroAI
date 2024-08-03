@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+
+  android-builder:
+    # This service sets up an Android application build environment using the Dockerfile in the current directory.
+    # The service mounts the local 'MyAndroidApp' directory to the '/app' directory inside the container.
+    # It then grants execution permissions to the 'gradlew' script and initiates the build process using Gradle.
+    
+    build: .
+
+    volumes:
+      - ./MyAndroidApp:/app
+      - ./target:/app/target
+      
+    command: /bin/bash -c "chmod +x /app/gradlew && cd /app && ./gradlew build && chmod 777 /app/app/build/outputs/apk/debug/app-debug.apk && chmod 777 /app/app/build/outputs/apk/release/app-release-unsigned.apk && cp /app/app/build/outputs/apk/debug/app-debug.apk /app/target/ && cp /app/app/build/outputs/apk/release/app-release-unsigned.apk /app/target/ && chmod -R 777 /app/target"
+
+
+# Written by: Ahmet ÖZDEMİR

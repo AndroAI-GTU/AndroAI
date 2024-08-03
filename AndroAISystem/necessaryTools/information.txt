@@ -1,0 +1,9 @@
+******
+
+
+Here you can put items that you will need when compiling your program 
+and that you will use ready-made in every program. You can add them 
+to the Dockerfile structure.
+
+
+******

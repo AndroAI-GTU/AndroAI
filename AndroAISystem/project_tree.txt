@@ -1,0 +1,19 @@
+.
+├── Dockerfile
+├── docker-compose.yml
+└── create_android_projects.py
+└── MyAndroidApp (bu backend servislerimiz tarafından sürekli değiştirilecek -> create_android_projects.py dosyası aracılığıyla)
+    ├── app
+    │   ├── src
+    │   │   ├── androidTest
+    │   │   ├── main
+    │   │   └── test
+    │   ├── build.gradle
+    │   └── proguard-rules.pro
+    ├── build.gradle
+    ├── gradle
+    │   └── wrapper
+    ├── gradle.properties
+    ├── gradlew
+    ├── gradlew.bat
+    └── settings.gradle
