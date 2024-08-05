@@ -9,3 +9,22 @@ services:
       - ${BACK_PORT}:${BACK_PORT}
     volumes:
       - ./nest-app:/app
+    networks:
+      - androAINetwork
+
+  react:
+    container_name: react
+    build: ./react-app
+    restart: always
+    environment:
+      - FRONT_PORT=${FRONT_PORT}
+    ports:
+      - ${FRONT_PORT}:${FRONT_PORT}
+    volumes:
+      - ./react-app:/app
+    networks:
+      - androAINetwork
+
+networks:
+  androAINetwork:
+    driver: bridge

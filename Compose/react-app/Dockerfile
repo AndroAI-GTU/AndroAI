@@ -12,13 +12,9 @@ RUN npm install -g npm
 
 RUN mkdir /app
 COPY . /app
+RUN chmod 777 /app/entrypoint.sh
 WORKDIR /app
 
-RUN npm install -g @nestjs/cli
-RUN npm install @nestjs/common
-RUN npm install class-transformer
-RUN npm install nestjs-form-data
+EXPOSE ${FRONT_PORT}
 
-EXPOSE ${BACK_PORT}
-
-ENTRYPOINT ["npm", "run", "start:dev"]
+ENTRYPOINT ["sh", "entrypoint.sh"]
