@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 @app.route('/build', methods=['POST'])
 def build_apk():
+    
     project_path = "/app/android"
     
     try:
@@ -30,15 +31,19 @@ def build_apk():
 
         if os.path.exists(debug_apk):
             return send_file(debug_apk, as_attachment=True)
+            
         elif os.path.exists(release_apk):
             return send_file(release_apk, as_attachment=True)
+            
         else:
             return jsonify({"error": "APK file not found"}), 404
 
     except Exception as e:
+        
         print(f"Error occurred: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 
 if __name__ == '__main__':
+    
     app.run(host='0.0.0.0', port=5000, debug=True)
