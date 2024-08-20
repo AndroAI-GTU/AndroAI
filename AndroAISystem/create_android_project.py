@@ -1,22 +1,22 @@
 import os
+import shutil
 
+# Proje yapısını tanımla
 project_structure = {
-        "app": {
-            "src": {
-                "androidTest": {
-                    "java": {
-                        "com": {
-                            "androai": {
-                                "ExampleInstrumentedTest.java": '''package com.androai.myandroidapp;
+    "app": {
+        "src": {
+            "androidTest": {
+                "java": {
+                    "com": {
+                        "androai": {
+                            "cizre": {
+                                "ExampleInstrumentedTest.java": '''package com.androai.cizre;
 
 import android.content.Context;
-
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
@@ -25,17 +25,18 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.androai.myandroidapp", appContext.getPackageName());
+        assertEquals("com.androai.cizre", appContext.getPackageName());
     }
 }
 '''
                             }
                         }
                     }
-                },
-                "main": {
-                    "AndroidManifest.xml": '''<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.androai.myandroidapp">
+                }
+            },
+            "main": {
+                "AndroidManifest.xml": '''<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.androai.cizre">
 
     <application
         android:allowBackup="true"
@@ -43,23 +44,29 @@ public class ExampleInstrumentedTest {
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyAndroidApp">
+        android:theme="@style/Theme.Cizre">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CizreEserleri"/>
+        <activity android:name=".CizreTarihi"/>
     </application>
 
 </manifest>
 ''',
-                    "java": {
-                        "com": {
-                            "androai": {
-                                "MainActivity.java": '''package com.androai.myandroidapp;
+                "java": {
+                    "com": {
+                        "androai": {
+                            "cizre": {
+                                "MainActivity.java": '''package com.androai.cizre;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -68,47 +75,132 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Button eserlerButton = findViewById(R.id.button_eserler);
+        eserlerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CizreEserleri.class);
+                startActivity(intent);
+            }
+        });
+
+        Button tarihButton = findViewById(R.id.button_tarih);
+        tarihButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CizreTarihi.class);
+                startActivity(intent);
+            }
+        });
+    }
+}
+''',
+                                "CizreEserleri.java": '''package com.androai.cizre;
+
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class CizreEserleri extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_cizre_eserleri);
+    }
+}
+''',
+                                "CizreTarihi.java": '''package com.androai.cizre;
+
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class CizreTarihi extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_cizre_tarihi);
     }
 }
 '''
                             }
                         }
-                    },
-                    "res": {
-                        "layout": {
-                            "activity_main.xml": '''<?xml version="1.0" encoding="utf-8"?>
+                    }
+                },
+                "res": {
+                    "layout": {
+                        "activity_main.xml": '''<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/button_eserler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Eserler"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/button_tarih"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tarih"
+        android:layout_below="@id/button_eserler"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+</RelativeLayout>
+''',
+                        "activity_cizre_eserleri.xml": '''<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello I am AndroAI"
+        android:text="Hoşgeldiniz, burada çok eser var."
+        android:textSize="18sp"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>
+''',
+                        "activity_cizre_tarihi.xml": '''<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hoşgeldiniz, buranın tarihi çok eskidir."
         android:textSize="18sp"
         android:layout_centerInParent="true"/>
 </RelativeLayout>
 '''
-                        },
-                        "values": {
-                            "strings.xml": '''<resources>
-    <string name="app_name">MyAndroidApp</string>
-    <string name="hello_world">Hello I am AndroAI</string>
+                    },
+                    "values": {
+                        "strings.xml": '''<resources>
+    <string name="app_name">Cizre</string>
+    <string name="eserler">Eserler</string>
+    <string name="tarih">Tarih</string>
 </resources>
 '''
-                        }
                     }
-                },
-                "test": {
-                    "java": {
-                        "com": {
-                            "androai": {
-                                "ExampleUnitTest.java": '''package com.androai.myandroidapp;
+                }
+            },
+            "test": {
+                "java": {
+                    "com": {
+                        "androai": {
+                            "cizre": {
+                                "ExampleUnitTest.java": '''package com.androai.cizre;
 
 import org.junit.Test;
-
 import static org.junit.Assert.*;
 
 public class ExampleUnitTest {
@@ -122,15 +214,17 @@ public class ExampleUnitTest {
                         }
                     }
                 }
-            },
-            "build.gradle": '''plugins {
-    id 'com.android.application'
+            }
+        },
+        "build.gradle": '''plugins {
+    id 'com.android.application' version '8.1.2'
 }
 
 android {
+    namespace 'com.androai.cizre'
     compileSdkVersion 30
     defaultConfig {
-        applicationId "com.androai.myandroidapp"
+        applicationId "com.androai.cizre"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
@@ -144,6 +238,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -155,48 +253,66 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
 ''',
-            "proguard-rules.pro": '''# Add your ProGuard rules here
+        "proguard-rules.pro": '''# Add your ProGuard rules here.
 # By default, the flags in this file are appended to flags specified
-# in /usr/share/proguard/proguard-android.txt
+# in /usr/local/android-sdk/tools/proguard/proguard-android.txt
 # You can edit the include path and order by changing the proguardFiles
 # directive in build.gradle.
+#
+# For more details, see
+#   http://developer.android.com/guide/developing/tools/proguard.html
+
+# Add any project-specific keep options here:
+# If your project uses WebView with JS, uncomment the following
+# and specify the fully qualified class name to the JavaScript interface
+# class:
+#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+#   public *;
+#}
 '''
-        },
-        "build.gradle": '''// Top-level build file where you can add configuration options common to all sub-projects/modules.
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath "com.android.tools.build:gradle:8.0.2"
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
+    },
+    "build.gradle": '''// Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+    id 'com.android.application' version '8.1.2' apply false
 }
 ''',
-        "gradle": {
-            "wrapper": {
-                "gradle-wrapper.properties": r'''distributionBase=GRADLE_USER_HOME
+    "gradle.properties": '''# Project-wide Gradle settings.
+
+# IDE (e.g. Android Studio) users:
+# Gradle settings configured through the IDE *will override*
+# any settings specified in this file.
+
+# For more details on how to configure your build environment visit
+# http://www.gradle.org/docs/current/userguide/build_environment.html
+
+# Specifies the JVM arguments used for the daemon process.
+# The setting is particularly useful for tweaking memory settings.
+# Default value: -Xmx10248m -Dfile.encoding=UTF-8
+org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
+
+# When configured, Gradle will run in incubating parallel mode.
+# This option should only be used with decoupled projects. More details, visit
+# http://www.gradle.org/docs/current/userguide/multi_project_builds.html#sec:decoupled_projects
+# org.gradle.parallel=true
+
+android.useAndroidX=true
+android.enableJetifier=true
+''',
+    "settings.gradle": '''rootProject.name = "Cizre"
+include ':app'
+''',
+    "local.properties": '''sdk.dir=/path/to/your/sdk''',
+    "gradle": {
+        "wrapper": {
+            "gradle-wrapper.properties": r'''distributionBase=GRADLE_USER_HOME
 distributionPath=wrapper/dists
 zipStoreBase=GRADLE_USER_HOME
 zipStorePath=wrapper/dists
-distributionUrl=https\://services.gradle.org/distributions/gradle-8.0.2-all.zip
+distributionUrl=https\://services.gradle.org/distributions/gradle-7.0-bin.zip
 '''
-            }
-        },
-        "gradle.properties": '''org.gradle.jvmargs=-Xmx2048m -Dkotlin.daemon.jvm.options="-Xmx2048m"
-''',
-        "gradlew": r'''#!/usr/bin/env sh
+        }
+    },
+    "gradlew": r'''#!/usr/bin/env sh
 
 ##############################################################################
 ##
@@ -310,7 +426,7 @@ ALL_JVM_OPTS=$ALL_JVM_OPTS' '"$APP_ARGS"
 # Launch the application.
 exec "$JAVACMD" $ALL_JVM_OPTS -classpath "$CLASSPATH" org.gradle.wrapper.GradleWrapperMain "$@"
 ''',
-        "gradlew.bat": r'''@echo off
+    "gradlew.bat": r'''@echo off
 setlocal
 
 set DIRNAME=%~dp0
@@ -331,7 +447,7 @@ echo.
 echo ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
 echo.
 echo Please set the JAVA_HOME variable in your environment to match the
-echo location of your Java installation.
+location of your Java installation.
 goto fail
 
 :findJavaFromJavaHome
@@ -349,7 +465,7 @@ echo.
 echo ERROR: JAVA_HOME is set to an invalid directory: %JAVA_HOME%
 echo.
 echo Please set the JAVA_HOME variable in your environment to match the
-echo location of your Java installation.
+location of your Java installation.
 goto fail
 
 :execute
@@ -369,22 +485,37 @@ set ALL_JVM_OPTS=%ALL_JVM_OPTS% %GRADLE_OPTS%
 '''
 }
 
+def copy_necessary_tools(project_dir):
+    necessary_tools_dir = "necessaryTools"
+    for root, dirs, files in os.walk(necessary_tools_dir):
+        for file in files:
+            src_path = os.path.join(root, file)
+            rel_path = os.path.relpath(src_path, necessary_tools_dir)
+            if "gradle" in rel_path or "gradlew" in rel_path or "local.properties" in rel_path or "settings.gradle" in rel_path:
+                dest_path = os.path.join(project_dir, rel_path)
+            else:
+                dest_path = os.path.join(project_dir, "app", "src", "main", "res", rel_path)
+            dest_dir = os.path.dirname(dest_path)
+            if not os.path.exists(dest_dir):
+                os.makedirs(dest_dir)
+            shutil.copyfile(src_path, dest_path)
+
 def create_project_structure(base_path, structure):
-
     for name, content in structure.items():
-
         path = os.path.join(base_path, name)
-
         if isinstance(content, dict):
-
             os.makedirs(path, exist_ok=True)
             create_project_structure(path, content)
-
         else:
+            with open(path, 'w') as file:
+                file.write(content)
 
-            with open(path, 'w') as f:
-                
-                f.write(content)
+def main():
+    project_name = "MyAndroidApp"
+    base_path = os.path.join(os.getcwd(), project_name)
+    os.makedirs(base_path, exist_ok=True)
+    create_project_structure(base_path, project_structure)
+    copy_necessary_tools(base_path)
 
-project_dir = "MyAndroidApp"
-create_project_structure(project_dir, project_structure)
+if __name__ == "__main__":
+    main()
