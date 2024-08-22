@@ -6,7 +6,7 @@ services:
     environment:
       - BACK_PORT=${BACK_PORT}
     ports:
-      - ${BACK_PORT}:${BACK_PORT}
+      - ${BACK_PORT}:${BACK_PORT} #temporary
     volumes:
       - ./nest-app:/app
     networks:
@@ -16,12 +16,30 @@ services:
     container_name: react
     build: ./react-app
     restart: always
+    depends_on:
+      - nest
     environment:
       - FRONT_PORT=${FRONT_PORT}
     ports:
       - ${FRONT_PORT}:${FRONT_PORT}
     volumes:
       - ./react-app:/app
+    networks:
+      - androAINetwork
+
+  android-builder:
+    container_name: android-builder
+    build: ./android-builder
+    depends_on:
+      - nest
+    ports:
+      - ${ANDROID_SERVER_PORT}:${ANDROID_SERVER_PORT} #temporary
+    environment:
+      PORT: ${ANDROID_SERVER_PORT}
+      ANDROID_HOME: ${ANDROID_HOME}
+      JAVA_HOME: ${JAVA_HOME}
+    volumes:
+      - ./android-builder/MyAndroidApp:/app/android
     networks:
       - androAINetwork
 

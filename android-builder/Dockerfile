@@ -43,9 +43,9 @@ RUN yes | sdkmanager --licenses && \
 # Diğer kısımlar
 WORKDIR /app
 
-COPY ./requirements.txt requirements.txt
+COPY ./Server/requirements.txt requirements.txt
 
-COPY ./compileServer.py compileServer.py
+COPY ./Server/compileServer.py compileServer.py
 
 RUN pip install --no-cache-dir -r requirements.txt
 
