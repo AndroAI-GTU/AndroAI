@@ -1,7 +1,7 @@
 import requests
 
 # Flask server'a istek gönder
-response = requests.post("http://localhost:5000/build")
+response = requests.post("http://localhost:5500/build")
 
 # APK dosyasını kaydet
 if response.status_code == 200:
