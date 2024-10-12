@@ -1,0 +1,90 @@
+version: "3.1"
+
+nlu:
+
+- synonym: product
+  examples: |
+    - Android
+    - Mobile
+    - Mobil
+    - Application
+
+
+- intent: greet
+  examples: |
+    - Hi
+    - Hello
+    - Peace be upon you
+    - Good morning
+    - Good day
+    - Hey
+    - Robot!
+    - Let's go
+    - Dear
+    - Good evening
+    - Good night
+    - Hi there
+    - Greetings
+
+- intent: create_android_app
+  examples: |
+    - Can you create an Android program?
+    - Can you develop an Android app?
+    - Can you make an Android app for me?
+    - I want you to create an app for Android
+    - Can you build an Android program?
+    - Can you develop a program for Android?
+    - Can you create an Android application?
+    - Can you make an app for Android?
+    - I want an Android app
+    - Can you write an Android application?
+    - Can you build a program for Android?
+    - I want an application for Android
+    - I need an Android app
+    - Can you make a program for Android?
+    - I want you to develop an Android app
+    - Can you write a program for Android?
+    - Can you develop a mobile app?
+    - I want an Android program
+    - Can you create an application for Android?
+    - Can you make an Android application for me?
+    - Can you write a mobile app for me?
+    - Can you develop an Android program?
+    - I need an application for Android
+    - Can you make an Android app?
+    - I want you to build an Android program
+    - Can you create a mobile application?
+    - Can you develop an app for Android?
+    - I want you to make an Android app
+    - Can you write an app for Android?
+    - Can you create a mobile app for me?
+
+- intent: create_open_source_app
+  examples: |
+    - I want to create an open-source Android app
+    - Can you make an open-source Android project?
+    - Please create an open-source Android application
+
+- intent: faq
+  examples: |
+    - What are the frequently asked questions?
+    - Can I see the FAQ?
+    - Show me the frequently asked questions
+
+- intent: inform_app_info
+  examples: |
+    - The app name is [MyApp](app_name)
+    - Call it [SuperApp](app_name)
+    - [MyApp](app_name)
+    - The activities are [Activity1, Activity2, Activity3](activity_names)
+    - Add activities [Login, Register, Dashboard](activity_names)
+    - [Login, Register, Dashboard](activity_names)
+    - Content explanations are [Login has a username and password field, Register has an email and password field](activity_content_explanations)
+    - Each activity should have a description like [Activity1 has a button, Activity2 has a text field](activity_content_explanations)
+    - [Login has a username and password field, Register has an email and password field](activity_content_explanations)
+    - Activity1 is linked to Activity2 and Activity3 [Activity1->Activity2, Activity1->Activity3](activity_links)
+    - Link activities like [Activity1->Activity2, Activity2->Activity3](activity_links)
+    - [Activity1->Activity2, Activity1->Activity3](activity_links)
+    - General explanation: This app is a simple management tool [This app is for managing tasks and users](general_explaining)
+    - The app is designed to handle multiple activities [This app manages user data](general_explaining)
+    - [This app is for managing tasks and users](general_explaining)

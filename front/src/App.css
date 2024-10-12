@@ -1,0 +1,163 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #000000; /* Kenarlardaki gri boşluk rengi değiştirildi */
+  padding: 0px; /* Padding sıfırlandı */
+  margin: 0px; /* Margin sıfırlandı */
+  box-sizing: border-box;
+}
+
+/* Beyaz çizgilerin kalkması için border sıfırlamaları */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+}
+
+.chat-header {
+  width: 100%;
+  text-align: left;
+  color: white; /* Butonun rengi ile aynı yapıldı */
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  padding: 20px 0 0 20px; /* Yukarı ve sol boşluklar eşitlendi */
+}
+
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Flex yönü baştan başlamalı */
+  height: calc(100vh - 150px); /* Yükseklik hesaplanarak yapılır */
+  width: 80%;
+  background-color: #3B3B3B;
+  border-radius: 20px;
+  padding: 20px;
+  overflow-y: auto; /* Scroll çubuğu için auto */
+  margin: 0 auto;
+}
+
+/* Sadece yukarı ve aşağı birer tane ok olacak şekilde */
+.chat-window::-webkit-scrollbar-button {
+  background-color: #002B1A; /* Arka plan rengi */
+  height: 16px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.chat-window::-webkit-scrollbar-button:vertical:decrement {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23002B1A" viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"/></svg>');
+}
+
+.chat-window::-webkit-scrollbar-button:vertical:increment {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23002B1A" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+}
+
+/* Mesajlar için renk düzenlemeleri */
+.message {
+  margin: 10px 0;
+  padding: 10px 15px;
+  border-radius: 20px;
+  max-width: 80%;
+  color: white;
+}
+
+.message.user {
+  align-self: flex-end;
+  background-color: #B2C4A1; /* Kullanıcı mesajı rengi */
+  color: black; /* Kullanıcı mesajı metin rengi */
+}
+
+.message.bot {
+  align-self: flex-start;
+  background-color: #D3D3D3; /* Bot mesajı rengi */
+  color: black; /* Bot mesajı metin rengi */
+}
+
+.input-container {
+  width: 80%; /* Ortada sabit genişlik */
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between; /* Input ve butonu yan yana düzenleyelim */
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px; /* Mesaj input barını küçülttüm */
+}
+
+input {
+  width: 88%; /* Input ve butonun genişliği eşitlendi */
+  padding: 15px; /* Input ve butonun dikey boyutları eşitlendi */
+  border-radius: 20px;
+  background-color: #FFFFFF; /* Biraz daha koyu gri */
+  color: black; /* Yazı rengi beyaz */
+  font-size: 18px; /* Yazı boyutu büyütüldü */
+  border: 1px solid #ccc;
+  margin-right: 10px;
+}
+
+input::placeholder {
+  color: black; /* Placeholder yazı rengi beyaz yapıldı */
+}
+
+button {
+  width: 10%; /* Butonun genişliği input ile orantılı */
+  padding: 15px; /* Input ile aynı dikey boyut */
+  border-radius: 20px;
+  border: none;
+  background-color: #B2C4A1; /* Buton rengi */
+  color: black;
+  cursor: pointer;
+  font-size: 18px;
+  margin-left: 0px;
+}
+
+button:hover {
+  background-color: #001D13;
+}
+
+.buttons-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Butonları ortalayalım */
+  margin-top: 10px;
+  gap: 10px; /* Butonlar arasına boşluk ekleyelim */
+}
+
+.buttons-container .button {
+  flex: 1 1 auto; /* Butonların esnek olmasını sağlayalım */
+  min-width: 150px; /* Butonların minimum genişliğini belirleyelim */
+  max-width: 250px; /* Butonların maksimum genişliğini belirleyelim */
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: #ffffff;
+  color: black;
+  border: 2px solid #002B1A;
+  cursor: pointer;
+  border-radius: 15px;
+  text-align: center; /* Buton içindeki metni ortalayalım */
+}
+
+.buttons-container .button:hover {
+  background-color: #f0f0f0;
+  color: black;
+  border-color: #002B1A;
+}
+
+.button {
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: #002B1A; /* Buton rengini Send butonuyla aynı yapıyoruz */
+  color: white;
+  border: none; /* Beyaz kenarlık kaldırıldı */
+  cursor: pointer;
+  border-radius: 15px;
+}
+
+.button:hover {
+  background-color: #001D13;
+}

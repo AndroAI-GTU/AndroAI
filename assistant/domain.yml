@@ -1,0 +1,131 @@
+version: "3.1"
+
+intents:
+  - greet
+  - create_android_app
+  - create_open_source_app
+  - faq
+  - inform_app_info
+
+entities:
+  - is_open_source
+  - app_name
+  - activity_names
+  - activity_content_explanations
+  - activity_links
+  - general_explaining
+
+
+slots:
+
+  is_open_source:
+    type: bool
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: is_open_source
+
+  app_name:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+        conditions:
+         - active_loop: android_app_form
+           requested_slot: app_name
+
+  activity_names:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+        conditions:
+         - active_loop: android_app_form
+           requested_slot: activity_names
+
+  activity_content_explanations:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+        conditions:
+         - active_loop: android_app_form
+           requested_slot: activity_content_explanations
+
+  activity_links:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+        conditions:
+         - active_loop: android_app_form
+           requested_slot: activity_links
+
+  general_explaining:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+        conditions:
+         - active_loop: android_app_form
+           requested_slot: general_explaining
+
+
+
+forms:
+  android_app_form:
+    required_slots:
+      - app_name
+      - activity_names
+      - activity_content_explanations
+      - activity_links
+      - general_explaining
+
+
+responses:
+
+  utter_greet:
+  - text: "Hey! How can I help you?"
+    buttons:
+    - title: "Create an Android Application"
+      payload: '/create_android_app'
+    - title: "Create Android Project Include Source Code"
+      payload: '/create_open_source_app'
+    - title: "Frequently Asked Questions"
+      payload: '/faq'
+
+  utter_creating_app:
+  - text: "Absolutely! First of all, I will ask you for some information, please confirm the information in the correct format."
+
+  utter_faq:
+  - text: "This is a text!"
+
+  utter_ask_app_name:
+    - text: "What's the name of the app?"
+
+  utter_ask_activity_names:
+    - text: "Please provide the names of the activities (comma-separated, Using Pascalcase and adding \"Activity\" tag to end of the activities may give better results)."
+
+  utter_ask_activity_content_explanations:
+    - text: "Please provide the content explanation for each activity."
+
+  utter_ask_activity_links:
+    - text: "Please specify the links between activities (format: FirstActivity->SecondActivity,MainActivity->FirstActivity etc.)."
+
+  utter_ask_general_explaining:
+    - text: "Please provide a general explanation for the app."
+
+  utter_submit:
+  - text: "All information has been collected. Thanks!"
+
+
+actions:
+  - action_create_app
+  - action_create_open_source_app
+  - action_submit_app_form
+  - validate_android_app_form
+
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

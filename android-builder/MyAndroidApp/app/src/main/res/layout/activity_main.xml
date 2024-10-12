@@ -1,129 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     tools:context=".MainActivity">
 
-    <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/gridLayout"
-        android:layout_width="391dp"
-        android:layout_height="361dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/messageInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="130dp"
-            android:layout_height="120dp"
-            android:onClick="increaseScore"
-            app:layout_column="0"
-            app:layout_row="0"
-            app:srcCompat="@drawable/essmaa" />
+        <LinearLayout
+            android:id="@+id/chatLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp" />
+    </ScrollView>
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="130dp"
-            android:layout_height="120dp"
-            android:onClick="increaseScore"
-            app:layout_column="1"
-            app:layout_row="0"
-            app:srcCompat="@drawable/essmaa" />
-
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="130dp"
-            android:layout_height="120dp"
-            android:onClick="increaseScore"
-            app:layout_column="2"
-            app:layout_row="0"
-            app:srcCompat="@drawable/essmaa" />
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="130dp"
-            android:layout_height="120dp"
-            android:onClick="increaseScore"
-            app:layout_column="0"
-            app:layout_row="1"
-            app:srcCompat="@drawable/essmaa" />
-
-        <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="130dp"
-            android:layout_height="120dp"
-            android:onClick="increaseScore"
-            app:layout_column="1"
-            app:layout_row="1"
-            app:srcCompat="@drawable/essmaa" />
-
-        <ImageView
-            android:id="@+id/imageView8"
-            android:layout_width="130dp"
-            android:layout_height="120dp"
-            android:onClick="increaseScore"
-            app:layout_column="2"
-            app:layout_row="1"
-            app:srcCompat="@drawable/essmaa" />
-
-        <ImageView
-            android:id="@+id/imageView9"
-            android:layout_width="130dp"
-            android:layout_height="120dp"
-            android:onClick="increaseScore"
-            app:layout_column="0"
-            app:layout_row="2"
-            app:srcCompat="@drawable/essmaa" />
-
-        <ImageView
-            android:id="@+id/imageView10"
-            android:layout_width="130dp"
-            android:layout_height="120dp"
-            android:onClick="increaseScore"
-            app:layout_column="1"
-            app:layout_row="2"
-            app:srcCompat="@drawable/essmaa" />
-
-        <ImageView
-            android:id="@+id/imageView11"
-            android:layout_width="130dp"
-            android:layout_height="120dp"
-            android:onClick="increaseScore"
-            app:layout_column="2"
-            app:layout_row="2"
-            app:srcCompat="@drawable/essmaa" />
-
-    </androidx.gridlayout.widget.GridLayout>
-
-    <TextView
-        android:id="@+id/timeText"
-        android:layout_width="143dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="4dp"
-        android:text=" Time : 10"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/scoreText"
-        android:layout_width="131dp"
-        android:layout_height="37dp"
-        android:text=" Score  : 0"
-        android:textAlignment="center"
-        android:textSize="24sp"
+    <LinearLayout
+        android:id="@+id/messageInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <EditText
+            android:id="@+id/messageInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_edittext"
+            android:hint="Mesajınızı girin"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#A9A9A9" />
+
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="0dp" />
+
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:backgroundTint="#808080"
+            android:gravity="center_vertical"
+            android:background="@drawable/button_background"
+            android:textAlignment="center"
+            app:icon="@drawable/baseline_send_24"
+            app:iconSize="30dp"
+            tools:ignore="RtlCompat" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+

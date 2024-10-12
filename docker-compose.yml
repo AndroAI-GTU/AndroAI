@@ -8,22 +8,26 @@ services:
     ports:
       - ${BACK_PORT}:${BACK_PORT} #temporary
     volumes:
-      - ./nest-app:/app
+      - nest_data:/app
+      - files_to_compile:/files_to_compile
+      - apk_files:/apk_files
     networks:
       - androAINetwork
+    depends_on:
+    - react
 
   react:
     container_name: react
-    build: ./react-app
+    build: ./front 
     restart: always
     depends_on:
-      - nest
+      - rasa
     environment:
       - FRONT_PORT=${FRONT_PORT}
     ports:
       - ${FRONT_PORT}:${FRONT_PORT}
     volumes:
-      - ./react-app:/app
+      - react_data:/app
     networks:
       - androAINetwork
 
@@ -39,10 +43,96 @@ services:
       ANDROID_HOME: ${ANDROID_HOME}
       JAVA_HOME: ${JAVA_HOME}
     volumes:
-      - ./android-builder/MyAndroidApp:/app/android
+      - android_app:/app/android
+      - files_to_compile:/files_to_compile
+      - apk_files:/apk_files
     networks:
       - androAINetwork
+
+  flask:
+    container_name: flask-front
+    build:
+      context: ./Server
+      dockerfile: Dockerfile
+      args:
+        FLASK_PORT: ${FLASK_PORT}
+    ports:
+      - "${FLASK_PORT}:${FLASK_PORT}"
+    environment:
+      - FLASK_PORT=${FLASK_PORT}
+    depends_on:
+      - rasa
+    networks:
+      - androAINetwork
+
+  rasa:
+    container_name: rasa
+    image: rasa/rasa:latest
+    ports:
+      - "${RASA_PORT}:${RASA_PORT}"
+    command:
+      - run
+      - --enable-api
+      - --cors
+      - '*'
+      - --port
+      - "${RASA_PORT}"
+      - --endpoints
+      - /app/endpoints.yml
+    volumes:
+      - ./assistant/models:/app/models
+      - ./assistant/endpoints.yml:/app/endpoints.yml
+    networks:
+      - androAINetwork
+    depends_on:
+      - rasa_action_server
+
+  rasa_action_server:
+    container_name: rasa-actions
+    build:
+      context: ./assistant
+      dockerfile: Dockerfile
+    volumes:
+      - ./assistant/actions:/app/actions
+      - ./assistant/endpoints.yml:/app/endpoints.yml
+    ports:
+      - "${ACTION_SERVER_PORT}:${ACTION_SERVER_PORT}"
+    networks:
+      - androAINetwork
+    command: ["start", "--actions", "actions"]
 
 networks:
   androAINetwork:
     driver: bridge
+
+volumes:
+  files_to_compile:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./volumes/files_to_compile
+      o: bind
+  apk_files:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./volumes/apk_files
+      o: bind
+  nest_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./nest-app
+      o: bind
+  react_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./front
+      o: bind
+  android_app:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./android-builder/MyAndroidApp
+      o: bind

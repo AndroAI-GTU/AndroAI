@@ -1,0 +1,29 @@
+# Node.js için gerekli olmayan dosyalar
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# React için build dosyaları
+/build/
+/dist/
+
+# Temporary dosyalar
+*.log
+*.tmp
+.DS_Store
+
+# IDE ve editor dosyaları
+.vscode/
+.idea/
+*.iml
+
+# Docker ilgili dosyalar
+docker-compose.override.yml
+
+# NestJS dosyaları
+files_to_compile/
+apk_files/
+
+# Android Builder dosyaları
+MyAndroidApp/

@@ -1,0 +1,42 @@
+version: "3.1"
+
+stories:
+
+- story: Request for an Android app
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: create_android_app
+  - action: android_app_form
+  - active_loop: android_app_form
+  - slot_was_set:
+    - requested_slot: app_name
+  - slot_was_set:
+    - app_name: "ExampleApp"
+  - slot_was_set:
+    - requested_slot: activity_names
+  - slot_was_set:
+    - activity_names: "MainActivity, SettingsActivity"
+  - slot_was_set:
+    - requested_slot: activity_content_explanations
+  - slot_was_set:
+    - activity_content_explanations: "Main content, Settings content"
+  - slot_was_set:
+    - requested_slot: activity_links
+  - slot_was_set:
+    - activity_links: "www.example.com/main, www.example.com/settings"
+  - slot_was_set:
+    - requested_slot: general_explaining
+  - slot_was_set:
+    - general_explaining: "This is an example app."
+  - active_loop: null
+  - action: utter_submit
+  - action: action_submit_app_form
+
+- story: Request for an open source Android app
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: create_open_source_app
+  - action: action_create_open_source_app
+
