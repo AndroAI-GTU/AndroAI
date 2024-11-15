@@ -1,36 +1,37 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
-import { v4 as uuidv4 } from 'uuid'; // her kullanıcı için unique id oluşturacağız bununla
+import { v4 as uuidv4 } from 'uuid'; /* we will create a unique id for each user with this */
 
 function App() 
 {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [buttons, setButtons] = useState([]);
-  const [userId, setUserId] = useState(null);  // Unique ID için state
+  const [userId, setUserId] = useState(null);  /* state for Unique ID */
   const chatWindowRef = useRef(null);
 
   useEffect(() => 
   {
-    // Unique ID'yi localStorage'dan kontrol et
+    /* Check Unique ID from localStorage */
     let storedId = localStorage.getItem('userId');
 
     if (!storedId) 
     {
-      storedId = uuidv4();  // UUID oluştur
+      storedId = uuidv4();  /* creat an UUID */
       localStorage.setItem('userId', storedId);
     }
-    setUserId(storedId);  // State'e kaydet
+    setUserId(storedId);  /* save to State */
   }, []);
 
   const sendMessage = async (message, ButtonsMessage=false) => 
   {
     if (!message || message.trim() === '') return;
 
-    // Kullanıcı mesajını ekliyoruz
+    /* add the user message */
     const userMessage = { text: message, user: 'user' };
 
-    if (!ButtonsMessage) setMessages((prevMessages) => [...prevMessages, userMessage]); // Sadece title ekrana basılıyor
+    /* Only title is printed on the screen */
+    if (!ButtonsMessage) setMessages((prevMessages) => [...prevMessages, userMessage]);
 
     console.log("Sending message:", message);
 
@@ -50,7 +51,7 @@ function App()
       const data = await response.json();
       console.log("JSON parsed:", data);
 
-      // Mesajın array olup olmadığını kontrol ediyoruz
+      /* Check if the message is array */
       const responseData = Array.isArray(data) ? data[0] : data;
 
       if (responseData.text) 
@@ -59,15 +60,15 @@ function App()
         setMessages((prevMessages) => [...prevMessages, botMessage]);
       }
 
-      // Gelen butonları kontrol ediyoruz
+      /* Check incoming buttons */
       if (responseData.buttons && responseData.buttons.length > 0) 
       {
-        setButtons(responseData.buttons); // Butonlar varsa set ediyoruz
+        setButtons(responseData.buttons); /* Set if there are buttons */
       } 
 
       else 
       {
-        setButtons([]); // Butonlar yoksa sıfırlıyoruz
+        setButtons([]); /* Reset if there are no buttons */
       }
 
     } 
@@ -81,11 +82,11 @@ function App()
 
   const handleButtonClick = (button) => 
   {
-    // Kullanıcı butona tıkladığında başlığı mesaj olarak ekliyoruz
+    /* Add the title as a message when the user clicks the button */
     const userMessage = { text: button.title, user: 'user' };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
-    setButtons([]); // Butonlar sıfırlanıyor
-    sendMessage(button.payload, true); // Payload'u sadece arka planda sunucuya gönderiyoruz
+    setButtons([]); /* reset the buttons */
+    sendMessage(button.payload, true);
   };
 
   useEffect(() => 
@@ -102,19 +103,19 @@ function App()
         AndroAI
       </div>
       <div className="chat-window" ref={chatWindowRef}>
-        {/* Mesajlar */}
+        {/* Messages */}
         {messages.map((message, index) => (
           <div key={index} className={`message ${message.user}`}>
             {message.text} {/* Sadece text alanı basılıyor */}
           </div>
         ))}
 
-        {/* Butonlar */}
+        {/* Buttons */}
         {buttons.length > 0 && (
           <div className="buttons-container">
             {buttons.map((button, index) => (
               <button key={index} className="button" onClick={() => handleButtonClick(button)}>
-                {button.title} {/* Payload değil sadece title ekrana basılıyor */}
+                {button.title} {/* Not payload, only title is printed on the screen */}
               </button>
             ))}
           </div>

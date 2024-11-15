@@ -5,9 +5,9 @@ import logging
 import os 
 
 app = Flask(__name__)
-CORS(app)  # CORS desteğini etkinleştiriyoruz
+CORS(app)  # We enable CORS support
 
-# Logging ayarları
+# Logging settings
 logging.basicConfig(level=logging.INFO)
 
 @app.route('/chat', methods=['POST'])

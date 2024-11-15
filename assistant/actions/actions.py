@@ -4,9 +4,6 @@
 # See this guide on how to implement these action:
 # https://rasa.com/docs/rasa/custom-actions
 
-
-# This is a simple example for a custom action which utters "Hello World!"
-
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
@@ -21,8 +18,7 @@ class ActionCreateApp(Action):
         return "action_create_app"
 
     def run(self, dispatcher, tracker, domain):
-
-        # `is_open_source` slotuna False değerini ata
+        # Assign False to `is_open_source` slot
         dispatcher.utter_message(response="utter_creating_app")
         return [SlotSet("is_open_source", False)]
 
@@ -33,8 +29,7 @@ class ActionCreateOpenSourceApp(Action):
         return "action_create_open_source_app"
 
     def run(self, dispatcher, tracker, domain):
-
-        # `is_open_source` slotuna True değerini atas
+        # Assign True to `is_open_source` slot
         dispatcher.utter_message(response="utter_creating_app")
         return [SlotSet("is_open_source", True)]
 
@@ -55,10 +50,10 @@ class ValidateAndroidAppForm(FormValidationAction):
     def validate_activity_names(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
        
         if slot_value and len(slot_value.strip()) > 0:
-            # Girilen metni virgül ile böl
+            # Split the entered text with comma
             activity_names_list = [name.strip() for name in slot_value.split(',')]
 
-            # Activity nesneleri yerine sadece isimlerin olduğu bir liste döndür
+            # Return a list with only names instead of Activity objects
             return {"activity_names": activity_names_list}
 
         dispatcher.utter_message(text="Activity names cannot be empty. Please provide valid names for the activities.")
@@ -96,14 +91,14 @@ class ActionSubmitAppForm(Action):
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        # Slotlardan veriyi toplayalım
+        # Collect the data from the slots
         app_name = tracker.get_slot('app_name')
         activity_names = tracker.get_slot('activity_names')
         activity_contents = tracker.get_slot('activity_content_explanations')
         activity_links = tracker.get_slot('activity_links')
         general_explaining = tracker.get_slot('general_explaining')
 
-        # Gönderilecek form verileri
+        # Form data to send
         form_data = {
             "appName": app_name,
             "activities": [
@@ -114,10 +109,10 @@ class ActionSubmitAppForm(Action):
                 } for name, content, links in zip(activity_names, activity_contents, activity_links)
             ],
             "generalExplanation": general_explaining,
-            "userId": tracker.sender_id  # User ID'yi de ekliyoruz
+            "userId": tracker.sender_id  # We assign a special id to each user for file confusion
         }
 
-        # NestJS API'ye POST isteği
+        # POST request to NestJS API
         try:
             response = requests.post('http://nest:5000/user/create-app', json=form_data)
             

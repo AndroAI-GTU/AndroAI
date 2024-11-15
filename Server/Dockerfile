@@ -1,13 +1,13 @@
-# Python resmi imajını temel alıyoruz
+# Based on the official Python image
 FROM python:3.10
 
-# Çalışma dizinini ayarlıyoruz
+# We set the working directory
 WORKDIR /app
 
 COPY requirements.txt requirements.txt
-COPY conservationServer.py conservationServer.py
+COPY conversationServer.py conversationServer.py
 
-# Gerekli bağımlılıkları yüklüyoruz
+# We install the necessary dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Expose port
@@ -15,5 +15,5 @@ ARG FLASK_PORT
 ENV FLASK_PORT=${FLASK_PORT}
 EXPOSE ${FLASK_PORT}
 
-# Flask sunucusunu çalıştırma komutu
-CMD ["python3", "conservationServer.py"]
+# Command to run Flask server
+CMD ["python3", "conversationServer.py"]

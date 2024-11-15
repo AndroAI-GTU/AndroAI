@@ -5,13 +5,12 @@
   justify-content: space-between;
   height: 100vh;
   font-family: Arial, sans-serif;
-  background-color: #000000; /* Kenarlardaki gri boşluk rengi değiştirildi */
-  padding: 0px; /* Padding sıfırlandı */
-  margin: 0px; /* Margin sıfırlandı */
+  background-color: #000000;
+  padding: 0px;
+  margin: 0px;
   box-sizing: border-box;
 }
 
-/* Beyaz çizgilerin kalkması için border sıfırlamaları */
 * {
   margin: 0;
   padding: 0;
@@ -22,29 +21,50 @@
 .chat-header {
   width: 100%;
   text-align: left;
-  color: white; /* Butonun rengi ile aynı yapıldı */
+  color: white;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
-  padding: 20px 0 0 20px; /* Yukarı ve sol boşluklar eşitlendi */
+  padding: 20px 0 0 20px;
+}
+
+.header-bot {
+  display: flex;
+  align-items: center;
+  background-color: #3B3B3B;
+  border-radius: 20px;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  width: 80%;
+}
+
+.header-bot img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.header-bot p {
+  font-size: 20px;
+  color: white;
+  margin: 0;
 }
 
 .chat-window {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Flex yönü baştan başlamalı */
-  height: calc(100vh - 150px); /* Yükseklik hesaplanarak yapılır */
+  justify-content: flex-start;
+  height: calc(100vh - 250px);
   width: 80%;
   background-color: #3B3B3B;
   border-radius: 20px;
   padding: 20px;
-  overflow-y: auto; /* Scroll çubuğu için auto */
+  overflow-y: auto;
   margin: 0 auto;
 }
 
-/* Sadece yukarı ve aşağı birer tane ok olacak şekilde */
 .chat-window::-webkit-scrollbar-button {
-  background-color: #002B1A; /* Arka plan rengi */
+  background-color: #002B1A;
   height: 16px;
   background-repeat: no-repeat;
   background-position: center;
@@ -58,7 +78,6 @@
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23002B1A" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
 }
 
-/* Mesajlar için renk düzenlemeleri */
 .message {
   margin: 10px 0;
   padding: 10px 15px;
@@ -69,47 +88,47 @@
 
 .message.user {
   align-self: flex-end;
-  background-color: #B2C4A1; /* Kullanıcı mesajı rengi */
-  color: black; /* Kullanıcı mesajı metin rengi */
+  background-color: #B2C4A1;
+  color: black;
 }
 
 .message.bot {
   align-self: flex-start;
-  background-color: #D3D3D3; /* Bot mesajı rengi */
-  color: black; /* Bot mesajı metin rengi */
+  background-color: #D3D3D3;
+  color: black;
 }
 
 .input-container {
-  width: 80%; /* Ortada sabit genişlik */
+  width: 80%;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between; /* Input ve butonu yan yana düzenleyelim */
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
-  padding: 10px; /* Mesaj input barını küçülttüm */
+  padding: 10px;
 }
 
 input {
-  width: 88%; /* Input ve butonun genişliği eşitlendi */
-  padding: 15px; /* Input ve butonun dikey boyutları eşitlendi */
+  width: 88%;
+  padding: 15px;
   border-radius: 20px;
-  background-color: #FFFFFF; /* Biraz daha koyu gri */
-  color: black; /* Yazı rengi beyaz */
-  font-size: 18px; /* Yazı boyutu büyütüldü */
+  background-color: #FFFFFF;
+  color: black;
+  font-size: 18px;
   border: 1px solid #ccc;
   margin-right: 10px;
 }
 
 input::placeholder {
-  color: black; /* Placeholder yazı rengi beyaz yapıldı */
+  color: black;
 }
 
 button {
-  width: 10%; /* Butonun genişliği input ile orantılı */
-  padding: 15px; /* Input ile aynı dikey boyut */
+  width: 10%;
+  padding: 15px;
   border-radius: 20px;
   border: none;
-  background-color: #B2C4A1; /* Buton rengi */
+  background-color: #B2C4A1;
   color: black;
   cursor: pointer;
   font-size: 18px;
@@ -123,15 +142,15 @@ button:hover {
 .buttons-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center; /* Butonları ortalayalım */
+  justify-content: center;
   margin-top: 10px;
-  gap: 10px; /* Butonlar arasına boşluk ekleyelim */
+  gap: 10px;
 }
 
 .buttons-container .button {
-  flex: 1 1 auto; /* Butonların esnek olmasını sağlayalım */
-  min-width: 150px; /* Butonların minimum genişliğini belirleyelim */
-  max-width: 250px; /* Butonların maksimum genişliğini belirleyelim */
+  flex: 1 1 auto;
+  min-width: 150px;
+  max-width: 250px;
   padding: 10px 20px;
   margin: 5px;
   background-color: #ffffff;
@@ -139,7 +158,7 @@ button:hover {
   border: 2px solid #002B1A;
   cursor: pointer;
   border-radius: 15px;
-  text-align: center; /* Buton içindeki metni ortalayalım */
+  text-align: center;
 }
 
 .buttons-container .button:hover {
@@ -151,9 +170,9 @@ button:hover {
 .button {
   padding: 10px 20px;
   margin: 5px;
-  background-color: #002B1A; /* Buton rengini Send butonuyla aynı yapıyoruz */
+  background-color: #002B1A;
   color: white;
-  border: none; /* Beyaz kenarlık kaldırıldı */
+  border: none;
   cursor: pointer;
   border-radius: 15px;
 }

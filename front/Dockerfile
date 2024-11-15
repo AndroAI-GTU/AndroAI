@@ -1,6 +1,7 @@
+# Base image
 FROM debian:buster
 
-# Node.js kurulumunu yapıyoruz
+# We install Node.js
 RUN apt-get update && \
     apt-get install -y gnupg curl && \
     mkdir -p /etc/apt/keyrings && \
@@ -9,24 +10,24 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y nodejs
 
-# npm'i güncelliyoruz
+# Uupdating npm
 RUN npm install -g npm
 
-# Çalışma dizinini oluşturuyoruz
+# We create the working directory
 RUN mkdir /app
 WORKDIR /app
 
-# Proje dosyalarını kopyalıyoruz
+# We copy the project files
 COPY . .
 
-# Bağımlılıkları yüklüyoruz
+# Instaling dependincies
 RUN npm install
 
-# Giriş dosyasını çalıştırılabilir hale getiriyoruz
+# We make the entry point file executable
 RUN chmod +x /app/entrypoint.sh
 
-# Uygulama için gerekli portu açıyoruz
+# We open the port required for the application
 EXPOSE ${FRONT_PORT}
 
-# Giriş noktası olarak entrypoint.sh'yi ayarlıyoruz
+# We set entrypoint.sh as entry point
 ENTRYPOINT ["sh", "entrypoint.sh"]

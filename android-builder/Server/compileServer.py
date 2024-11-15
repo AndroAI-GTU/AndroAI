@@ -13,21 +13,20 @@ def build_apk():
     #     src_path: "/files_to_compile/${user_id}/generate.py"
     #     dst_path: "/apk_files/${user_id}/final.apk"
     # }
-    # İstekten src_path ve dst_path değerlerini al
+    # Get src_path and dst_path from the request
 
     body = request.get_json()
     src_path = body['src_path']
     dst_path = body['dst_path']
 
     try:
-        # generate.py dosyasını çalıştır
+        # Run generate.py
         gen_result = subprocess.run(
             ['python3', src_path],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True
         )
-
         print("Generate.py STDOUT:", gen_result.stdout)
         print("Generate.py STDERR:", gen_result.stderr)
 
@@ -36,7 +35,7 @@ def build_apk():
 
         project_path = os.path.dirname(src_path)
 
-        # Gradle build süreci
+        # Gradle build process
         result = subprocess.run(
             ["./gradlew", "assembleDebug",
              "-Dorg.gradle.java.home=/usr/lib/jvm/java-17-openjdk-amd64",
@@ -46,32 +45,31 @@ def build_apk():
             stderr=subprocess.PIPE,
             text=True
         )
-
         print("STDOUT:", result.stdout)
         print("STDERR:", result.stderr)
 
         if result.returncode != 0:
             return jsonify({"error": "Build failed", "details": result.stderr}), 500
 
-        # APK dosyalarının yerini kontrol et
+        # Check the location of APK files
         debug_apk = os.path.join(project_path, "app/build/outputs/apk/debug/app-debug.apk")
         # release_apk = os.path.join(project_path, "app/build/outputs/apk/release/app-release-unsigned.apk")
 
-        # dst_path dizinini oluştur
+        # Generate dst_path directory
         os.makedirs(dst_path, exist_ok=True)
 
-        # APK dosyalarını dst_path dizinine kopyala
+        # Copy APK files to dst_path directory
         if os.path.exists(debug_apk):
             shutil.copy(debug_apk, os.path.join(dst_path, os.path.basename(debug_apk)))
 
         # if os.path.exists(release_apk):
         #     shutil.copy(release_apk, os.path.join(dst_path, os.path.basename(release_apk)))
-
         return jsonify({"message": "Build successful"}), 200
 
     except Exception as e:
         print(f"Error occurred: {str(e)}")
         return jsonify({"error": str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=os.getenv('PORT'), debug=True)

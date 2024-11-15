@@ -12,6 +12,12 @@ COPY package*.json ./
 # Install app dependencies
 RUN npm install
 RUN npm install axios @types/axios
+RUN npm install dotenv
+
+# Expose port
+ARG BACK_PORT
+ENV BACK_PORT=${BACK_PORT}
+EXPOSE ${BACK_PORT}
 
 # Bundle app source
 COPY . .

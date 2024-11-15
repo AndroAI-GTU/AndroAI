@@ -5,6 +5,7 @@ services:
     restart: always
     environment:
       - BACK_PORT=${BACK_PORT}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
     ports:
       - ${BACK_PORT}:${BACK_PORT} #temporary
     volumes:
@@ -60,6 +61,7 @@ services:
       - "${FLASK_PORT}:${FLASK_PORT}"
     environment:
       - FLASK_PORT=${FLASK_PORT}
+      - NODE_ENV=development #for debugging
     depends_on:
       - rasa
     networks:

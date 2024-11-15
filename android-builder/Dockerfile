@@ -1,12 +1,12 @@
-# temel imaj
+# base image
 FROM python:3.10
 
 
-# Java JDK yükleme
+# Java JDK installation
 RUN apt-get update && apt-get install -y openjdk-17-jdk
 
 
-# JAVA_HOME'u ayarlama
+# Setting JAVA_HOME
 ENV JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
 ENV PATH="$JAVA_HOME/bin:$PATH"
 
@@ -22,7 +22,6 @@ RUN mkdir -p /sdk/cmdline-tools && \
 # Set Android SDK environment variables
 # This step configures the installation directory of the Android SDK and updates the PATH variable.
 ENV ANDROID_HOME=/sdk
-
 ENV PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
 
 
@@ -40,7 +39,6 @@ RUN yes | sdkmanager --licenses && \
     sdkmanager "platform-tools" "platforms;android-30" "build-tools;30.0.3"
 
     
-# Diğer kısımlar
 WORKDIR /app
 
 COPY ./Server/requirements.txt requirements.txt
