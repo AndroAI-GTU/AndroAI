@@ -10,7 +10,9 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 from rasa_sdk.forms import FormValidationAction
 import requests
+import logging
 
+logging.basicConfig(level=logging.DEBUG)
 
 class ActionCreateApp(Action):
 
@@ -91,12 +93,19 @@ class ActionSubmitAppForm(Action):
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
+        # Log tracker.sender_id
+        user_id = tracker.sender_id
+        logging.info(f"DEBUG: User ID from tracker: {user_id}")
+
         # Collect the data from the slots
         app_name = tracker.get_slot('app_name')
         activity_names = tracker.get_slot('activity_names')
         activity_contents = tracker.get_slot('activity_content_explanations')
         activity_links = tracker.get_slot('activity_links')
         general_explaining = tracker.get_slot('general_explaining')
+
+        # Log the slots data
+        logging.info(f"DEBUG: Collected slots data - app_name: {app_name}, activities: {activity_names}, contents: {activity_contents}, links: {activity_links}, general_explaining: {general_explaining}")
 
         # Form data to send
         form_data = {
@@ -109,13 +118,19 @@ class ActionSubmitAppForm(Action):
                 } for name, content, links in zip(activity_names, activity_contents, activity_links)
             ],
             "generalExplanation": general_explaining,
-            "userId": tracker.sender_id  # We assign a special id to each user for file confusion
+            "userId": user_id  # We assign a special id to each user for file confusion
         }
+        # Log form data before sending
+        logging.info(f"DEBUG: Form data to send to NestJS: {form_data}")
 
         # POST request to NestJS API
         try:
             response = requests.post('http://nest:5000/user/create-app', json=form_data)
+            response.raise_for_status()
             
+            logging.info(f"DEBUG: Response status code: {response.status_code}")
+            logging.info(f"DEBUG: Response content: {response.content}")
+
             if response.status_code == 200:
                 dispatcher.utter_message(text="App form successfully submitted to the server.")
 

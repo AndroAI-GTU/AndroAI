@@ -14,11 +14,19 @@ logging.basicConfig(level=logging.INFO)
 def chat():
 
     user_message = request.json.get('message')
-    app.logger.info(f"Received message from user: {user_message}")
+    user_id = request.json.get('userId')
+    app.logger.info(f"Received message from user: {user_message}, User ID: {user_id}")
+
+    if not user_id:
+        app.logger.error("Missing userId in the request")
+        return jsonify({"error": "userId is required"}), 400
 
     try:
 
-        rasa_response = requests.post('http://rasa:5005/webhooks/rest/webhook', json={"message": user_message})
+        rasa_response = requests.post(
+            'http://rasa:5005/webhooks/rest/webhook', 
+            json={"message": user_message, "sender": user_id}
+        )
         rasa_response.raise_for_status()
         app.logger.info(f"Received response from Rasa: {rasa_response.json()}")
         return jsonify(rasa_response.json())

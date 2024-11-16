@@ -14,6 +14,7 @@ function App()
   {
     /* Check Unique ID from localStorage */
     let storedId = localStorage.getItem('userId');
+    console.log("Assigned User ID:", storedId);
 
     if (!storedId) 
     {
@@ -21,10 +22,18 @@ function App()
       localStorage.setItem('userId', storedId);
     }
     setUserId(storedId);  /* save to State */
-  }, []);
+
+    /* wait for the first message after updating userId */
+  }, [userId]);
 
   const sendMessage = async (message, ButtonsMessage=false) => 
   {
+    if(!userId)
+    {
+      console.warn("User ID has not been defined yet, the operation is on hold.");
+      return;
+    }
+
     if (!message || message.trim() === '') return;
 
     /* add the user message */
@@ -37,6 +46,8 @@ function App()
 
     try 
     {
+      console.log("Sending message:", message, "User ID:", userId);
+
       const response = await fetch('http://localhost:5001/chat', 
       {
         method: 'POST',
@@ -45,7 +56,7 @@ function App()
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
         },
-        body: JSON.stringify({ message: message, userId: userId }), // userId'yi de sunucuya gönderiyoruz
+        body: JSON.stringify({ message: message, userId: userId }), /* userId'yi de sunucuya gönderiyoruz */
       });
 
       const data = await response.json();

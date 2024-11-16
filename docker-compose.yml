@@ -10,8 +10,8 @@ services:
       - ${BACK_PORT}:${BACK_PORT} #temporary
     volumes:
       - nest_data:/app
-      - files_to_compile:/files_to_compile
-      - apk_files:/apk_files
+      - files_to_compile:/volumes/files_to_compile
+      - apk_files:/volumes/apk_files
     networks:
       - androAINetwork
     depends_on:
@@ -40,13 +40,13 @@ services:
     ports:
       - ${ANDROID_SERVER_PORT}:${ANDROID_SERVER_PORT} #temporary
     environment:
-      PORT: ${ANDROID_SERVER_PORT}
-      ANDROID_HOME: ${ANDROID_HOME}
-      JAVA_HOME: ${JAVA_HOME}
+      - ANDROID_SERVER_PORT=${ANDROID_SERVER_PORT}
+      - ANDROID_HOME=${ANDROID_HOME}
+      - JAVA_HOME=${JAVA_HOME}
     volumes:
-      - android_app:/app/android
-      - files_to_compile:/files_to_compile
-      - apk_files:/apk_files
+      - source_codes:/volumes/source_codes
+      - files_to_compile:/volumes/files_to_compile
+      - apk_files:/volumes/apk_files
     networks:
       - androAINetwork
 
@@ -120,6 +120,12 @@ volumes:
       type: none
       device: ./volumes/apk_files
       o: bind
+  source_codes:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./volumes/source_codes
+      o: bind
   nest_data:
     driver: local
     driver_opts:
@@ -132,9 +138,4 @@ volumes:
       type: none
       device: ./front
       o: bind
-  android_app:
-    driver: local
-    driver_opts:
-      type: none
-      device: ./android-builder/MyAndroidApp
-      o: bind
+

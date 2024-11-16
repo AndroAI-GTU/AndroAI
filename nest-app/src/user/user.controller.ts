@@ -19,7 +19,7 @@ export class UserController
     @Post('create-app')
     async postQuery(@Body() body: any, @Res() response: Response) 
     {
-        this.logger.log(`Received app creation request with data: ${JSON.stringify(FormData)}`);
+        this.logger.log(`Received app creation request with data: ${JSON.stringify(body)}`);
 
         try 
         {
@@ -27,16 +27,59 @@ export class UserController
 
             const gptResponse = await this.userService.callGPTAPI(prompt);
 
-            /* Save the response from GPT as generate.py */
+            /* Save the response from GPT as genProjectStructure.py */
             const userId = body.userId;
-            const srcPath = path.join(`/files_to_compile/${userId}`, 'generate.py');
-            const dstPath = path.join(`/apk_files/${userId}`);
-            
-            /* Create file directories */
-            fs.mkdirSync(path.dirname(srcPath), { recursive: true });
-            fs.writeFileSync(srcPath, gptResponse);  /* GPT yanıtını dosya olarak kaydet */
+            this.logger.log(`Received User ID: ${userId}`);
+
+            const baseDir = '/volumes/files_to_compile';
+            const userDir = path.join(baseDir, userId);
+
+            if (!fs.existsSync(userDir)) 
+            {
+                this.logger.log(`Creating directory: ${userDir}`);
+                fs.mkdirSync(userDir, { recursive: true });
+            }
+            const promptFilePath = path.join(userDir, 'prompt.txt');
+
+            fs.writeFileSync(promptFilePath, prompt);
+            this.logger.log(`Prompt successfully written to: ${promptFilePath}`);
+
+            const userSourceCodeFolder = path.join(`/volumes/files_to_compile/${userId}`);
+            const srcPath = path.join(userSourceCodeFolder, 'genProjectStructure.py');
+
+            if (!fs.existsSync(userSourceCodeFolder)) 
+            {
+                this.logger.log(`Creating directory: ${userSourceCodeFolder}`);
+                fs.mkdirSync(userSourceCodeFolder, { recursive: true });
+            }
+
+            /* Write GPT response to file */
+            try 
+            {
+                fs.writeFileSync(srcPath, gptResponse);
+                this.logger.log(`File successfully created: ${srcPath}`);
+            } 
+
+            catch (error) 
+            {
+                this.logger.error(`Error writing to file ${srcPath}: ${error.message}`);
+                throw error;
+            }
+
+            /* Verify if the file has been created */
+            if (fs.existsSync(srcPath)) 
+            {
+                this.logger.log(`File successfully created and verified: ${srcPath}`);
+            } 
+
+            else 
+            {
+                this.logger.error(`File verification failed: ${srcPath} does not exist.`);
+                throw new Error(`File creation failed for ${srcPath}`);
+            }
 
             /*________________________________________________________________________________
+            |                                                                                 |
             |   Send a POST request to Android Builder:                                       |
             |                                                                                 |
             | - as a result of this request the android-builder service will run generate.py  |
@@ -44,14 +87,40 @@ export class UserController
             _________________________________________________________________________________*/
 
             const androidBuilderUrl = 'http://android-builder:5500/build';
-            const buildResponse = await axios.post(androidBuilderUrl, 
+            const dstPath = path.join(`/volumes/apk_files/${userId}`);
+
+            this.logger.log(`Sending POST request to ${androidBuilderUrl} with src_path: ${srcPath} and dst_path: ${dstPath}`);
+
+            if (!fs.existsSync(srcPath)) 
             {
-                src_path: srcPath,
-                dst_path: dstPath
-            });
+                throw new Error(`Source file ${srcPath} not found before making a request to Android Builder.`);
+            }
+
+            try
+            {
+                const buildResponse = await axios.post(
+                    androidBuilderUrl, 
+                    {
+                        src_path: srcPath,
+                        dst_path: dstPath,
+                        user_id: userId
+                    },
+                    {
+                        timeout: 30000
+                    }
+                );       
+                this.logger.log(`Build response: ${JSON.stringify(buildResponse.data)}`);       
+            }
+
+            catch (error) 
+            {
+                this.logger.error(`Axios request failed: ${error.message}`, error.response ? error.response.data : error.stack);
+                throw error;
+            }
 
             /* return apk's path */
-            return response.status(HttpStatus.OK).json({
+            return response.status(HttpStatus.OK).json(
+            {
                 message: 'App created successfully',
                 apkPath: path.join(dstPath, 'app-debug.apk')
             });
@@ -66,52 +135,4 @@ export class UserController
                 .json({ error: error.message });
         }
     }
-    // @Post('query')
-    // @FormDataRequest()
-    // postQuery(
-    //     @Body() body: UserFormDataDto, 
-    //     @Res() response: Response): Promise<void> {
-
-    //     const prompt = this.userService.promptGenerator(body);
-        
-    //     /* Gpt API ına prompt kullanarak istek atılacak */
-
-    //     /* Gpt API ından dönen veriler file olarak /files_to_compile 
-    //         klasörünün içine bir numara verilerek kaydedilecek.
-    //         Örneğin:
-    //         /files_to_compile/{usr_id}/
-    //     */
-        
-    //     /* Son olarak android-builder a istek atılacak.
-    //         İsteğin içeriği dosya yolunu tutmalı. 
-    //         Örnek komut:
-    //             response = await fetch(`http://android-builder:5500/build`,{
-    //                 method: "POST",
-    //                 body: JSON.stringify({
-    //                     path: "/files_to_compile/usr_id"
-    //                 }),
-    //                 headers: {
-    //                     "Content-type": "application/json"
-    //                 }
-    //             });
-    //     */
-
-    //     /* android-builderdan apk file ın yolu geri döndülcek.
-    //         Örneğin:
-    //         let apk_file_path = ""
-    //         if (response.ok){
-    //             res = response.json();
-    //             apk_file_path = res.path;
-    //         }
-    //     */
-
-    //     /* apk file "apk_file_path" değişkeni kullanılarak 
-    //         response olarak döndürülecek 
-    //     */
-
-    //     response.status(HttpStatus.CREATED).json({
-    //         FormDataReceived: body,
-    //         FileLocation: body.appIcon.path.toString(),
-    //     });
-    // } 
 }

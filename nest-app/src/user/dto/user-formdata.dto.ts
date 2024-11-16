@@ -1,7 +1,8 @@
 import { Expose } from 'class-transformer';
 import { FileSystemStoredFile, HasMimeType, IsFile, MaxFileSize } from 'nestjs-form-data';
 
-export class Activity{
+export class Activity
+{
     @Expose()
     name: string;
     
@@ -12,7 +13,8 @@ export class Activity{
     links: string[];
 }
 
-export class UserFormDataDto {
+export class UserFormDataDto 
+{
     @Expose()
     appName: string;
 
@@ -27,5 +29,4 @@ export class UserFormDataDto {
     @MaxFileSize(1e6)
     @HasMimeType(['image/jpeg', 'image/png'])
     appIcon: FileSystemStoredFile;
-
 }

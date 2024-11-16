@@ -38,7 +38,13 @@ RUN mkdir -p $ANDROID_HOME/licenses && \
 RUN yes | sdkmanager --licenses && \
     sdkmanager "platform-tools" "platforms;android-30" "build-tools;30.0.3"
 
-    
+
+# Expose port
+ARG ANDROID_SERVER_PORT
+ENV ANDROID_SERVER_PORT=${ANDROID_SERVER_PORT}
+EXPOSE ${ANDROID_SERVER_PORT}
+
+
 WORKDIR /app
 
 COPY ./Server/requirements.txt requirements.txt

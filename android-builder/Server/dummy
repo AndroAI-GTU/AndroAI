@@ -1,0 +1,9 @@
+AhmetApp
+
+MainActivity, WelActivity
+
+MainActivity: There will be a red button in the center of the screen and “Enter” will be written above the button. WelActivity: Here I want to have a text in the middle of the screen that says “Welcome to my application!” in the middle of the screen.
+
+MainActivity->WelActivity
+
+I want the WelActivity page to open when I press the red button in MainActivity. Please consider these requests.

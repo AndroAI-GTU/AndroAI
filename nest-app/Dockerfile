@@ -4,6 +4,10 @@ FROM node:18
 # Create app directory
 WORKDIR /usr/src/app
 
+# Install ping utility
+RUN apt-get update && apt-get install -y iputils-ping
+
+# Create directories for volumes
 RUN mkdir /files_to_compile /apk_files
 
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
